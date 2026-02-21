@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johanna Habicht - Abstract Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #fafaf8;
+            --text: #1a1a1a;
+            --text-light: #6b6b6b;
+            --accent: #c4a265;
+            --border: #e8e6e1;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Navigation ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(250, 250, 248, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        nav.scrolled {
+            border-bottom-color: var(--border);
+        }
+
+        .nav-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        /* ── Hero ── */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(3rem, 8vw, 7rem);
+            letter-spacing: 0.08em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            display: block;
+            font-style: italic;
+            font-size: 0.4em;
+            letter-spacing: 0.2em;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        .hero-line {
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0.4;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .scroll-hint span {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .scroll-hint svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
+        /* ── Gallery ── */
+        .gallery {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 3rem 8rem;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 0.85rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+        }
+
+        .gallery-item {
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .gallery-item:nth-child(odd) {
+            margin-top: 3rem;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+            transition: box-shadow 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            box-shadow: 0 16px 60px rgba(0, 0, 0, 0.12);
+        }
+
+        .gallery-item .caption {
+            margin-top: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .caption .title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .caption .meta {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* ── Featured (full-width single) ── */
+        .featured {
+            max-width: 1000px;
+            margin: 2rem auto 6rem;
+            padding: 0 3rem;
+            text-align: center;
+        }
+
+        .featured img {
+            width: 100%;
+            max-width: 800px;
+            display: inline-block;
+            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .featured .caption {
+            margin-top: 1.5rem;
+        }
+
+        .featured .caption .title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+        }
+
+        .featured .caption .meta {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 0.3rem;
+        }
+
+        /* ── About ── */
+        .about {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 6rem 3rem 8rem;
+            text-align: center;
+        }
+
+        .about-line {
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin: 0 auto 3rem;
+        }
+
+        .about h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .about p {
+            font-size: 0.95rem;
+            line-height: 1.9;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        /* ── Contact ── */
+        .contact {
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .contact h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .contact a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 2px;
+            transition: border-color 0.3s;
+        }
+
+        .contact a:hover {
+            border-bottom-color: var(--text);
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.7rem;
+            color: var(--text-light);
+            letter-spacing: 0.1em;
+        }
+
+        /* ── Lightbox ── */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.92);
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            box-shadow: 0 0 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+        }
+
+        .lightbox-close:hover {
+            opacity: 1;
+        }
+
+        /* ── Animations ── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .nav-links a {
+                font-size: 0.7rem;
+            }
+
+            .gallery {
+                padding: 3rem 1.5rem 6rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .gallery-item:nth-child(odd) {
+                margin-top: 0;
+            }
+
+            .about {
+                padding: 4rem 1.5rem 6rem;
+            }
+
+            .featured {
+                padding: 0 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-name {
+                font-size: 1.1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-name">Johanna Habicht</div>
+        <ul class="nav-links">
+            <li><a href="#works">Works</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>
+            Johanna Habicht
+            <span>Abstract Expressionism</span>
+        </h1>
+        <div class="hero-line"></div>
+        <p>Color. Movement. Emotion.</p>
+        <div class="scroll-hint">
+            <span>Explore</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="gallery" id="works">
+        <p class="section-title">Selected Works - 2025</p>
+
+        <!-- Featured piece -->
+        <div class="featured fade-in">
+            <img src="images/painting-01.jpg" alt="Abstract painting - flowing warm tones with gold leaf" onclick="openLightbox(this)">
+            <div class="caption">
+                <div class="title">Celestial Drift</div>
+                <div class="meta">Acrylic &amp; gold leaf on canvas - 2025</div>
+            </div>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-02.jpg" alt="Abstract - blue and pink energy with gold leaf">
+                <div class="caption">
+                    <span class="title">Tempest in Bloom</span>
+                    <span class="meta">Acrylic &amp; gold leaf</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-03.jpg" alt="Abstract - deep green and magenta">
+                <div class="caption">
+                    <span class="title">Distant Anchorage</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-04.jpg" alt="Abstract - burgundy and blue explosion with gold">
+                <div class="caption">
+                    <span class="title">Collision Hymn</span>
+                    <span class="meta">Acrylic &amp; gold leaf</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-05.jpg" alt="Abstract - sage green and orange flowing forms">
+                <div class="caption">
+                    <span class="title">Jade Reverie</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-06.jpg" alt="Colorful splatter - pink, blue, gold confetti">
+                <div class="caption">
+                    <span class="title">Jubilee</span>
+                    <span class="meta">Acrylic &amp; gold leaf</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-07.jpg" alt="Gold concentric circles on textured surface">
+                <div class="caption">
+                    <span class="title">Sacred Resonance</span>
+                    <span class="meta">Gold on textured canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-08.jpg" alt="Blue mountains - winter landscape">
+                <div class="caption">
+                    <span class="title">Stille Gipfel</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-09.jpg" alt="Green gestural explosion on cream">
+                <div class="caption">
+                    <span class="title">Verdant Uproar</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-10.jpg" alt="Black with bright color explosions">
+                <div class="caption">
+                    <span class="title">Scattered Hymns</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-11.jpg" alt="Teal and yellow abstract composition">
+                <div class="caption">
+                    <span class="title">Nocturne Gallop</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-12.jpg" alt="Gold and black textured waves">
+                <div class="caption">
+                    <span class="title">Gilded Terrain</span>
+                    <span class="meta">Mixed media &amp; gold</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-13.jpg" alt="Purple, green, yellow, red color field">
+                <div class="caption">
+                    <span class="title">Where Worlds Collide</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-14.jpg" alt="Dark abstract - layered color patches">
+                <div class="caption">
+                    <span class="title">Sunken Bazaar</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-15.jpg" alt="Green splash with red accent">
+                <div class="caption">
+                    <span class="title">Wild Tending</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-16.jpg" alt="Golden yellow textured surface with circles">
+                <div class="caption">
+                    <span class="title">Pollen &amp; Dust</span>
+                    <span class="meta">Mixed media &amp; gold</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-17.jpg" alt="Blue ocean with orange and white drips">
+                <div class="caption">
+                    <span class="title">Coral Rainfall</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-18.jpg" alt="Teal yellow abstract - bold gestural">
+                <div class="caption">
+                    <span class="title">Leviathan Rising</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-19.jpg" alt="Gold and black waves - metallic texture">
+                <div class="caption">
+                    <span class="title">Night Market</span>
+                    <span class="meta">Mixed media &amp; gold</span>
+                </div>
+            </div>
+            <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img'))">
+                <img src="images/painting-20.jpg" alt="Dark layered abstract - multicolor patches">
+                <div class="caption">
+                    <span class="title">Dark Tapestry</span>
+                    <span class="meta">Acrylic on canvas</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+        <div class="about-line"></div>
+        <h2>About the Artist</h2>
+        <p>
+            Johanna Habicht creates abstract expressionist works that explore the interplay 
+            between color, movement, and raw emotion. Each canvas is a conversation 
+            between intention and spontaneity, where fluid acrylics meet gold leaf 
+            accents to create pieces that shimmer with life.
+        </p>
+        <p>
+            Working primarily in acrylic with gold leaf embellishments, the paintings 
+            embrace bold contrasts and organic forms, inviting the viewer to find their 
+            own meaning within each composition.
+        </p>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <h2>Inquiries</h2>
+        <p>For purchases, commissions, or exhibition inquiries<br>
+        <a href="mailto:hello@jhabicht.art">hello@jhabicht.art</a></p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 Johanna Habicht. All rights reserved.
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <img id="lightbox-img" src="" alt="Full view">
+    </div>
+
+    <script>
+        // Nav scroll effect
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Lightbox
+        function openLightbox(img) {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = img.src;
+            lb.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>
